@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Configure Gemini
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 # Rate limiting: ~15 requests/min for free tier → ~4s between calls
 RATE_LIMIT_DELAY = 4.0
@@ -199,3 +199,4 @@ def _calculate_stats(results: list[SentimentResult]) -> SentimentStats:
         negative_pct=round((neg / total) * 100, 1),
         neutral_pct=round((neu / total) * 100, 1)
     )
+     
