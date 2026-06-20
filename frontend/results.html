@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive dashboard showing sentiment analysis results, word clouds, and summaries for MCA eConsultation comments.">
+    <title>Analysis Dashboard — eConsultation Sentiment Analyzer</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="logo-icon">📊</div>
+                <span>eConsult<span style="color: var(--accent-blue)">AI</span></span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="results.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container-wide" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+        <!-- Empty State -->
+        <div id="empty-state" class="card" style="text-align: center; padding: var(--space-3xl);">
+            <div style="font-size: 3rem; margin-bottom: var(--space-md);">📭</div>
+            <h2>No Analysis Results Yet</h2>
+            <p style="color: var(--text-secondary); margin-top: var(--space-sm); margin-bottom: var(--space-xl);">
+                Upload a file or paste comments to see the analysis dashboard.
+            </p>
+            <a href="upload.html" class="btn btn-primary btn-lg">🚀 Upload Comments</a>
+        </div>
+
+        <!-- Dashboard Content (hidden until results exist) -->
+        <div id="dashboard" class="hidden">
+
+            <!-- Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: var(--space-md);">
+                <div>
+                    <h1 style="font-size: 1.5rem;">Analysis Dashboard</h1>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;" id="dashboard-subtitle"></p>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                    <button class="btn btn-secondary btn-sm" id="btn-export">💾 Export JSON</button>
+                    <a href="upload.html" class="btn btn-primary btn-sm">📁 New Analysis</a>
+                </div>
+            </div>
+
+            <!-- Metric Cards -->
+            <div class="metrics-grid" id="metrics-grid">
+                <div class="metric-card total animate-in">
+                    <div class="metric-value" id="metric-total">0</div>
+                    <div class="metric-label">Total Comments</div>
+                </div>
+                <div class="metric-card positive animate-in animate-in-delay-1">
+                    <div class="metric-value" id="metric-positive">0</div>
+                    <div class="metric-label">Positive</div>
+                </div>
+                <div class="metric-card negative animate-in animate-in-delay-2">
+                    <div class="metric-value" id="metric-negative">0</div>
+                    <div class="metric-label">Negative</div>
+                </div>
+                <div class="metric-card neutral animate-in animate-in-delay-3">
+                    <div class="metric-value" id="metric-neutral">0</div>
+                    <div class="metric-label">Neutral</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="chart-grid">
+                <div class="chart-card animate-in">
+                    <h3>Sentiment Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="sentiment-pie-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card animate-in animate-in-delay-1">
+                    <h3>Sentiment by Section</h3>
+                    <div class="chart-container">
+                        <canvas id="section-bar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Summary -->
+            <div id="summary-section" class="animate-in">
+                <div class="summary-card">
+                    <h3>📋 Executive Summary</h3>
+                    <p id="executive-summary-text"></p>
+                </div>
+            </div>
+
+            <!-- Word Cloud -->
+            <div class="wordcloud-section animate-in" id="wordcloud-section">
+                <h2 style="margin-bottom: var(--space-lg);">Word Cloud Analysis</h2>
+
+                <!-- Tabs for Overall / Per Sentiment -->
+                <div class="tabs" id="wordcloud-tabs">
+                    <button class="tab active" data-tab="overall">Overall</button>
+                    <button class="tab" data-tab="positive">Positive</button>
+                    <button class="tab" data-tab="negative">Negative</button>
+                    <button class="tab" data-tab="neutral">Neutral</button>
+                </div>
+
+                <div class="wordcloud-grid">
+                    <div class="wordcloud-image-card">
+                        <img id="wordcloud-image" src="" alt="Word Cloud Visualization">
+                    </div>
+                    <div class="keywords-card">
+                        <h3>🔑 Top Keywords</h3>
+                        <div id="keywords-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Table -->
+            <div class="animate-in" id="comments-section">
+                <h2 style="margin-bottom: var(--space-lg);">Comment Details</h2>
+
+                <div class="controls-bar">
+                    <div class="search-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" id="search-input"
+                               placeholder="Search comments...">
+                    </div>
+                    <div class="filter-pills" id="filter-pills">
+                        <button class="filter-pill active" data-filter="all">All</button>
+                        <button class="filter-pill" data-filter="Positive">✅ Positive</button>
+                        <button class="filter-pill" data-filter="Negative">❌ Negative</button>
+                        <button class="filter-pill" data-filter="Neutral">➖ Neutral</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="comments-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">#</th>
+                                <th>Stakeholder</th>
+                                <th>Section</th>
+                                <th>Comment</th>
+                                <th>Sentiment</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comments-tbody"></tbody>
+                    </table>
+                </div>
+                <div id="table-info" style="color: var(--text-muted); font-size: 0.8rem; margin-top: var(--space-sm); text-align: right;"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>eConsultation Sentiment Analysis System — MCA India</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/wordcloud.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload CSV or Excel files for AI-powered sentiment analysis of MCA eConsultation comments.">
+    <title>Upload Comments — eConsultation Sentiment Analyzer</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="logo-icon">📊</div>
+                <span>eConsult<span style="color: var(--accent-blue)">AI</span></span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="upload.html" class="active">Upload</a></li>
+                <li><a href="results.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+        <div class="section-header">
+            <h1>Upload Stakeholder Comments</h1>
+            <p>Upload a CSV or Excel file, or paste comments directly</p>
+        </div>
+
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="upload-zone">
+            <div class="upload-icon">📂</div>
+            <h3>Drag & Drop Your File Here</h3>
+            <p>or click to browse</p>
+            <div class="file-types">
+                <span class="file-type-badge">CSV</span>
+                <span class="file-type-badge">XLSX</span>
+                <span class="file-type-badge">XLS</span>
+            </div>
+            <p style="margin-top: var(--space-md); font-size: 0.8rem; color: var(--text-muted);">
+                Maximum file size: 10 MB
+            </p>
+            <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display: none;">
+        </div>
+
+        <!-- File Info (shown after upload) -->
+        <div id="file-info" class="hidden" style="margin-top: var(--space-lg);">
+            <div class="card" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-md);">
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <span style="font-size: 1.5rem;">📄</span>
+                    <div>
+                        <div id="file-name" style="font-weight: 600;"></div>
+                        <div id="file-meta" style="color: var(--text-secondary); font-size: 0.85rem;"></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                    <button class="btn btn-sm btn-secondary" id="btn-change-file">Change File</button>
+                    <button class="btn btn-sm btn-danger" id="btn-remove-file">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detected Columns -->
+        <div id="columns-info" class="hidden" style="margin-top: var(--space-md);">
+            <div class="card">
+                <h3 style="margin-bottom: var(--space-md);">🔍 Detected Columns</h3>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">COMMENT COLUMN</span>
+                        <div id="col-comment" style="font-weight: 600; color: var(--accent-emerald);"></div>
+                    </div>
+                    <div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">STAKEHOLDER COLUMN</span>
+                        <div id="col-stakeholder" style="font-weight: 600;"></div>
+                    </div>
+                    <div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">SECTION COLUMN</span>
+                        <div id="col-section" style="font-weight: 600;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Table -->
+        <div id="preview-section" class="preview-section hidden">
+            <h3>📋 File Preview (First 5 Rows)</h3>
+            <div class="table-wrapper">
+                <table id="preview-table">
+                    <thead id="preview-thead"></thead>
+                    <tbody id="preview-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Analyze Button -->
+        <div id="analyze-section" class="hidden" style="text-align: center; margin-top: var(--space-xl);">
+            <button class="btn btn-primary btn-lg" id="btn-analyze" style="min-width: 250px;">
+                🧠 Analyze Comments
+            </button>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: var(--space-sm);" id="comment-count-info"></p>
+        </div>
+
+        <!-- Progress -->
+        <div id="progress-section" class="progress-container hidden">
+            <div class="progress-header">
+                <span class="progress-title" id="progress-title">Analyzing...</span>
+                <span class="progress-percentage" id="progress-pct">0%</span>
+            </div>
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="progress-steps" id="progress-steps">
+                <div class="progress-step" id="step-upload" data-step="upload">📁 Upload</div>
+                <div class="progress-step" id="step-sentiment" data-step="sentiment">🎯 Sentiment</div>
+                <div class="progress-step" id="step-summary" data-step="summary">📝 Summary</div>
+                <div class="progress-step" id="step-wordcloud" data-step="wordcloud">☁️ Word Cloud</div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">or paste comments directly</div>
+
+        <!-- Manual Text Input -->
+        <div class="text-input-section">
+            <textarea id="manual-input"
+                placeholder="Paste one comment per line here...&#10;&#10;Example:&#10;The proposed CSR amendment is a welcome step towards transparency.&#10;We believe the compliance burden on small companies is too high.&#10;The section regarding director duties needs further clarification."
+                rows="8"></textarea>
+            <div style="text-align: right; margin-top: var(--space-md);">
+                <button class="btn btn-primary" id="btn-analyze-text" disabled>
+                    🧠 Analyze Text
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>eConsultation Sentiment Analysis System — MCA India</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/upload.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered sentiment analysis for MCA eConsultation stakeholder comments. Analyze, summarize, and visualize public consultation feedback.">
+    <title>eConsultation Sentiment Analyzer — MCA Public Consultation Analysis</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="logo-icon">📊</div>
+                <span>eConsult<span style="color: var(--accent-blue)">AI</span></span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="results.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                AI-Powered Analysis Engine
+            </div>
+            <h1>
+                Analyze Public Consultation<br>
+                <span class="gradient-text">Feedback with AI</span>
+            </h1>
+            <p>
+                Transform stakeholder comments from MCA's eConsultation portal into actionable
+                insights using sentiment analysis, intelligent summaries, and visual word clouds.
+            </p>
+            <div class="hero-actions">
+                <a href="upload.html" class="btn btn-primary btn-lg" id="cta-upload">
+                    🚀 Start Analyzing
+                </a>
+                <a href="#features" class="btn btn-secondary btn-lg" id="cta-learn">
+                    Learn More ↓
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container">
+        <div class="section-header">
+            <h2>Powerful Analysis Features</h2>
+            <p>Everything you need to understand public sentiment at a glance</p>
+        </div>
+        <div class="features-grid">
+            <div class="card animate-in animate-in-delay-1" id="feature-sentiment">
+                <div class="card-icon blue">🎯</div>
+                <h3>Sentiment Classification</h3>
+                <p>
+                    Classify each comment as Positive, Negative, or Neutral using Google Gemini AI.
+                    Get confidence scores and reasoning for every classification.
+                </p>
+            </div>
+            <div class="card animate-in animate-in-delay-2" id="feature-summary">
+                <div class="card-icon emerald">📝</div>
+                <h3>Smart Summarization</h3>
+                <p>
+                    Generate concise 2-3 sentence summaries per comment plus a comprehensive
+                    executive summary synthesizing all key themes and concerns.
+                </p>
+            </div>
+            <div class="card animate-in animate-in-delay-3" id="feature-wordcloud">
+                <div class="card-icon coral">☁️</div>
+                <h3>Word Cloud Visualization</h3>
+                <p>
+                    Visualize key topics and terminology with TF-IDF weighted word clouds.
+                    See separate clouds per sentiment category for deeper insights.
+                </p>
+            </div>
+            <div class="card animate-in animate-in-delay-1" id="feature-upload">
+                <div class="card-icon purple">📁</div>
+                <h3>Flexible File Upload</h3>
+                <p>
+                    Upload CSV or Excel files with drag-and-drop. Auto-detects comment,
+                    stakeholder, and section columns — no manual mapping needed.
+                </p>
+            </div>
+            <div class="card animate-in animate-in-delay-2" id="feature-dashboard">
+                <div class="card-icon amber">📊</div>
+                <h3>Interactive Dashboard</h3>
+                <p>
+                    Explore results with pie charts, bar charts, searchable comment tables,
+                    and filterable views. Everything updates in real-time.
+                </p>
+            </div>
+            <div class="card animate-in animate-in-delay-3" id="feature-export">
+                <div class="card-icon blue">💾</div>
+                <h3>Export Results</h3>
+                <p>
+                    Download complete analysis results as JSON for further processing,
+                    reporting, or integration with other systems.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="steps container">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Three simple steps from raw comments to actionable insights</p>
+        </div>
+        <div class="steps-grid">
+            <div class="card step-card animate-in animate-in-delay-1" id="step-1">
+                <div class="step-number">1</div>
+                <h3>Upload Comments</h3>
+                <p>
+                    Drag and drop your CSV or Excel file containing stakeholder comments
+                    from the MCA eConsultation portal.
+                </p>
+            </div>
+            <div class="card step-card animate-in animate-in-delay-2" id="step-2">
+                <div class="step-number">2</div>
+                <h3>AI Analysis</h3>
+                <p>
+                    Our AI engine processes each comment — classifying sentiment, generating
+                    summaries, and extracting key topics.
+                </p>
+            </div>
+            <div class="card step-card animate-in animate-in-delay-3" id="step-3">
+                <div class="step-number">3</div>
+                <h3>Explore Results</h3>
+                <p>
+                    View the interactive dashboard with charts, word clouds, searchable tables,
+                    and the executive summary.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container" style="padding: var(--space-3xl) 0;">
+        <div class="card" style="text-align: center; padding: var(--space-3xl);">
+            <h2 style="margin-bottom: var(--space-md);">Ready to Analyze?</h2>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-xl); max-width: 500px; margin-left: auto; margin-right: auto;">
+                Upload your stakeholder comments and get instant AI-powered insights
+                to support policy decision-making.
+            </p>
+            <a href="upload.html" class="btn btn-primary btn-lg" id="cta-bottom">
+                🚀 Upload Your File
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                eConsultation Sentiment Analysis System — Built for
+                <a href="#">Ministry of Corporate Affairs, India</a>
+            </p>
+            <p style="margin-top: var(--space-sm);">
+                Powered by Google Gemini AI • Chart.js • scikit-learn
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
